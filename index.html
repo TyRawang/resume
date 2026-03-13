@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tenzin Rawang — Resume</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -330,9 +331,10 @@
     body { background: white; }
     body::before { display: none; }
     .print-btn { display: none; }
-    .header { animation: none; opacity: 1; padding: 40px 48px 32px; }
+    .header { animation: none; opacity: 1; }
     .section { opacity: 1; transform: none; }
     .page { padding: 32px 48px; }
+    .header { padding: 40px 48px 32px; }
     .tag:hover { background: var(--cream-dark); color: var(--mid); border-color: var(--rule); }
   }
 
@@ -343,9 +345,194 @@
     .skill-label { min-width: unset; }
     .job-top { flex-direction: column; gap: 4px; }
   }
+
+  /* ── STICKY TICKER ── */
+  .sticky-ticker {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    height: 32px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  .sticky-ticker.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .ticker-track {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    white-space: nowrap;
+    animation: ticker-scroll 40s linear infinite;
+  }
+
+  .ticker-track:hover { animation-play-state: paused; }
+
+  @keyframes ticker-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 24px;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.55);
+  }
+
+  .ticker-item strong {
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  .ticker-sep {
+    color: rgba(201,168,76,0.35);
+    padding: 0 4px;
+  }
+
+  /* ── ANALYTICS STRIP BG (Ken Burns) ── */
+  .analytics-strip {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 0;
+    margin-bottom: 48px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .analytics-strip-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+    transform-origin: center center;
+  }
+
+  @keyframes kenburns {
+    0%   { transform: scale(1.0); }
+    100% { transform: scale(1.1); }
+  }
+
+  .analytics-strip-tint {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .analytics-strip-frost {
+    position: absolute;
+    inset: 0;
+    background: rgba(250, 248, 244, 0.65);
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .analytics-strip > .astrip-item {
+    position: relative;
+    z-index: 3;
+  }
+
+  .astrip-item {
+    flex: 1;
+    min-width: 120px;
+    padding: 0 20px;
+    border-right: 1px solid var(--rule);
+  }
+
+  .astrip-item:first-child { padding-left: 0; }
+  .astrip-item:last-child { border-right: none; }
+
+  .astrip-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 3px;
+  }
+
+  .astrip-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+
+  .astrip-sub {
+    font-size: 10px;
+    color: var(--light);
+    font-style: italic;
+    margin-top: 1px;
+  }
+
+  .analytics-loading {
+    display: inline-block;
+    width: 32px;
+    height: 7px;
+    background: linear-gradient(90deg, var(--rule) 25%, var(--cream-dark) 50%, var(--rule) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s infinite;
+    border-radius: 3px;
+    vertical-align: middle;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--navy), var(--gold));
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s linear;
+  }
+
+  @media (max-width: 680px) {
+    .astrip-item { min-width: 45%; padding: 8px 12px; border-right: none; border-bottom: 1px solid var(--rule); }
+    .astrip-item:last-child { border-bottom: none; }
+  }
+
+  @media print {
+    .sticky-ticker, .scroll-progress, .analytics-strip { display: none; }
+  }
 </style>
 </head>
 <body>
+
+<!-- Scroll progress bar -->
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- Sticky ticker (appears on scroll) -->
+<div class="sticky-ticker" id="sticky-ticker">
+  <div class="ticker-track" id="ticker-track">
+    <!-- populated by JS, doubled for seamless loop -->
+  </div>
+</div>
 
 <header class="header">
   <div class="header-inner">
@@ -353,12 +540,50 @@
     <p class="tagline">Marketing Operations &nbsp;·&nbsp; Digital Marketing &nbsp;·&nbsp; Ecommerce</p>
     <div class="contact-bar">
       <span class="contact-item"><span class="contact-dot"></span>Calgary, Alberta, Canada</span>
-      <a href="https://linkedin.com/in/tenzin-r-8b14a5a4" class="contact-item" target="_blank" rel="noopener noreferrer"><span class="contact-dot"></span>linkedin.com/in/tenzin-r-8b14a5a4</a>
+      <a href="https://linkedin.com/in/tenzin-r-8b14a5a4" class="contact-item" target="_blank"><span class="contact-dot"></span>linkedin.com/in/tenzin-r-8b14a5a4</a>
     </div>
   </div>
 </header>
 
 <main class="page">
+
+  <!-- ── ANALYTICS STRIP ── -->
+  <div class="analytics-strip" id="analytics-strip">
+    <!-- Background layers -->
+    <div class="analytics-strip-bg" id="strip-bg"></div>
+    <div class="analytics-strip-tint" id="strip-tint"></div>
+    <div class="analytics-strip-frost" id="strip-frost"></div>
+    <div class="astrip-item">
+      <div class="astrip-label">Location</div>
+      <div class="astrip-value" id="a-location"><span class="analytics-loading"></span></div>
+      <div class="astrip-sub" id="a-weather-sub"></div>
+    </div>
+    <div class="astrip-item">
+      <div class="astrip-label">Weather</div>
+      <div class="astrip-value" id="a-weather"><span class="analytics-loading"></span></div>
+      <div class="astrip-sub" id="a-weather-feels"></div>
+    </div>
+    <div class="astrip-item">
+      <div class="astrip-label">Local Time</div>
+      <div class="astrip-value" id="a-time"><span class="analytics-loading"></span></div>
+      <div class="astrip-sub" id="a-timezone"></div>
+    </div>
+    <div class="astrip-item">
+      <div class="astrip-label">Device</div>
+      <div class="astrip-value" id="a-device"><span class="analytics-loading"></span></div>
+      <div class="astrip-sub" id="a-os"></div>
+    </div>
+    <div class="astrip-item">
+      <div class="astrip-label">Browser</div>
+      <div class="astrip-value" id="a-browser"><span class="analytics-loading"></span></div>
+      <div class="astrip-sub" id="a-screen"></div>
+    </div>
+    <div class="astrip-item">
+      <div class="astrip-label">Time on Page</div>
+      <div class="astrip-value" id="a-time-on-page">0s</div>
+      <div class="astrip-sub" id="a-scroll-pct">0% read</div>
+    </div>
+  </div>
 
   <!-- ── EXPERIENCE ── -->
   <section class="section" data-section>
@@ -448,7 +673,7 @@
       <div class="job-company">BigRewa — Email Marketing</div>
       <div class="job-meta">Self-employed &nbsp;·&nbsp; Calgary, AB</div>
       <ul class="bullets">
-        <li>Designed, built, and deployed a custom email marketing application from the ground up, reducing send time from 10 minutes to seconds.</li>
+        <li>Built and deployed a custom email marketing application that reduced email sending time from 10 minutes to seconds.</li>
         <li>Built business intelligence tooling to support campaign reporting and performance tracking.</li>
       </ul>
     </div>
@@ -509,31 +734,270 @@
 <script>
   // Intersection observer for scroll-in animations
   const sections = document.querySelectorAll('[data-section]');
-  let sectionIndex = 0;
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
+    entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
-        const idx = sectionIndex++;
-        setTimeout(() => {
-          entry.target.classList.add('visible');
-          // Stagger job cards after section becomes visible
-          const jobs = entry.target.querySelectorAll('.job');
-          jobs.forEach((job, j) => {
-            job.style.opacity = '0';
-            job.style.transform = 'translateY(16px)';
-            job.style.transition = `opacity 0.5s ease ${j * 0.07}s, transform 0.5s ease ${j * 0.07}s`;
-            requestAnimationFrame(() => {
-              job.style.opacity = '1';
-              job.style.transform = 'translateY(0)';
-            });
-          });
-        }, idx * 100);
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
         observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.05 });
 
   sections.forEach(s => observer.observe(s));
+
+  // ── SCROLL PROGRESS + STICKY TICKER ──
+  const progressBar = document.getElementById('scroll-progress');
+  const stickyTicker = document.getElementById('sticky-ticker');
+  const headerEl = document.querySelector('.header');
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+    progressBar.style.width = pct + '%';
+
+    // Show ticker once we scroll past the header
+    const threshold = headerEl.offsetHeight + 60;
+    if (scrolled > threshold) {
+      stickyTicker.classList.add('visible');
+    } else {
+      stickyTicker.classList.remove('visible');
+    }
+
+    document.getElementById('a-scroll-pct').textContent = Math.round(pct) + '% read';
+  });
+
+  // ── DEVICE & BROWSER ──
+  function getDeviceInfo() {
+    const ua = navigator.userAgent;
+    let device = 'Desktop';
+    if (/Mobi|Android|iPhone/i.test(ua)) device = 'Mobile';
+    else if (/iPad|Tablet/i.test(ua)) device = 'Tablet';
+
+    let os = 'Unknown OS';
+    if (/Windows NT 10/.test(ua)) os = 'Windows 11/10';
+    else if (/Windows NT/.test(ua)) os = 'Windows';
+    else if (/Mac OS X/.test(ua)) os = 'macOS';
+    else if (/Android/.test(ua)) os = 'Android';
+    else if (/iPhone|iPad/.test(ua)) os = 'iOS';
+    else if (/Linux/.test(ua)) os = 'Linux';
+
+    let browser = 'Unknown';
+    if (/Edg\//.test(ua)) browser = 'Edge';
+    else if (/OPR\/|Opera/.test(ua)) browser = 'Opera';
+    else if (/Chrome\//.test(ua)) browser = 'Chrome';
+    else if (/Firefox\//.test(ua)) browser = 'Firefox';
+    else if (/Safari\//.test(ua)) browser = 'Safari';
+
+    return { device, os, browser };
+  }
+
+  const { device, os, browser } = getDeviceInfo();
+  document.getElementById('a-device').textContent = device;
+  document.getElementById('a-os').textContent = os;
+  document.getElementById('a-browser').textContent = browser;
+  document.getElementById('a-screen').textContent = `${screen.width}×${screen.height}`;
+
+  // ── TIME ON PAGE ──
+  const startTime = Date.now();
+  function updateSession() {
+    const secs = Math.floor((Date.now() - startTime) / 1000);
+    const mins = Math.floor(secs / 60);
+    const s = secs % 60;
+    const timeStr = mins > 0 ? `${mins}m ${s}s` : `${secs}s`;
+    document.getElementById('a-time-on-page').textContent = timeStr;
+    updateTickerItem('ticker-time', timeStr);
+  }
+  setInterval(updateSession, 1000);
+
+  // ── LOCAL CLOCK ──
+  let clockTz = null;
+  function updateClock() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-US', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      timeZone: clockTz || undefined
+    });
+    document.getElementById('a-time').textContent = timeStr;
+    updateTickerItem('ticker-clock', timeStr);
+  }
+
+  // ── TICKER HELPERS ──
+  const tickerData = {};
+  function updateTickerItem(key, val) {
+    tickerData[key] = val;
+    rebuildTicker();
+  }
+
+  function rebuildTicker() {
+    const items = [
+      tickerData['ticker-location'] && { label: 'Viewing from', val: tickerData['ticker-location'] },
+      tickerData['ticker-weather']  && { label: 'Weather', val: tickerData['ticker-weather'] },
+      tickerData['ticker-clock']    && { label: 'Local time', val: tickerData['ticker-clock'] },
+      { label: 'Device', val: `${device} · ${os}` },
+      { label: 'Browser', val: `${browser} · ${screen.width}×${screen.height}` },
+      tickerData['ticker-time']     && { label: 'Time on page', val: tickerData['ticker-time'] },
+    ].filter(Boolean);
+
+    const html = items.map(item =>
+      `<span class="ticker-item"><span class="ticker-sep">·</span> ${item.label} <strong>${item.val}</strong></span>`
+    ).join('');
+
+    const track = document.getElementById('ticker-track');
+    // Double for seamless loop
+    track.innerHTML = html + html;
+  }
+
+  rebuildTicker();
+
+  // ── GEO + WEATHER ──
+  async function loadAnalytics() {
+    try {
+      const geo = await fetch('https://ipapi.co/json/').then(r => r.json());
+      const city = geo.city || 'Unknown';
+      const country = geo.country_name || '';
+      const tz = geo.timezone || '';
+      clockTz = tz;
+
+      const locationStr = `${city}, ${country}`;
+      document.getElementById('a-location').textContent = locationStr;
+      document.getElementById('a-timezone').textContent = tz;
+      updateTickerItem('ticker-location', locationStr);
+
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      try {
+        const w = await fetch(`https://wttr.in/${encodeURIComponent(city)}?format=j1`).then(r => r.json());
+        const cur = w.current_condition[0];
+        const temp = cur.temp_C;
+        const desc = cur.weatherDesc[0].value;
+        const feels = cur.FeelsLikeC;
+        const humidity = cur.humidity;
+        const weatherStr = `${temp}°C · ${desc}`;
+        document.getElementById('a-weather').textContent = weatherStr;
+        document.getElementById('a-weather-sub').textContent = tz;
+        document.getElementById('a-weather-feels').textContent = `Feels ${feels}°C · ${humidity}% humidity`;
+        updateTickerItem('ticker-weather', weatherStr);
+
+        // ── KEN BURNS BACKGROUND ──
+        const descLower = desc.toLowerCase();
+
+        // Weather tint
+        let tintColor = 'rgba(255,200,80,0.15)';
+        if (descLower.includes('rain') || descLower.includes('drizzle') || descLower.includes('shower')) {
+          tintColor = 'rgba(80,100,140,0.25)';
+        } else if (descLower.includes('snow') || descLower.includes('blizzard') || descLower.includes('ice')) {
+          tintColor = 'rgba(200,220,240,0.30)';
+        } else if (descLower.includes('cloud') || descLower.includes('overcast') || descLower.includes('fog') || descLower.includes('mist')) {
+          tintColor = 'rgba(140,140,150,0.22)';
+        } else if (descLower.includes('thunder') || descLower.includes('storm')) {
+          tintColor = 'rgba(50,30,80,0.28)';
+        }
+
+        // Use Picsum with a city-name-based seed for a consistent landscape photo
+        const seed = encodeURIComponent(city.toLowerCase().replace(/\s+/g,'-'));
+        const bgUrl = `https://picsum.photos/seed/${seed}-city/1600/400`;
+
+        setupKenBurns(bgUrl, tintColor);
+      } catch {
+        document.getElementById('a-weather').textContent = '-3°C · Partly Cloudy';
+        document.getElementById('a-weather-feels').textContent = 'Feels -9°C · 72% humidity';
+        updateTickerItem('ticker-weather', '-3°C · Partly Cloudy');
+      }
+
+    } catch {
+      // ── FALLBACK DUMMY DATA ──
+      const dummyCity = 'Calgary';
+      const dummyCountry = 'Canada';
+      const dummyTz = 'America/Edmonton';
+      clockTz = dummyTz;
+
+      const locationStr = `${dummyCity}, ${dummyCountry}`;
+      document.getElementById('a-location').textContent = locationStr;
+      document.getElementById('a-timezone').textContent = dummyTz;
+      document.getElementById('a-weather-sub').textContent = dummyTz;
+      updateTickerItem('ticker-location', locationStr);
+
+      const weatherStr = '-3°C · Partly Cloudy';
+      document.getElementById('a-weather').textContent = weatherStr;
+      document.getElementById('a-weather-feels').textContent = 'Feels -9°C · 72% humidity';
+      updateTickerItem('ticker-weather', weatherStr);
+
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      // Ken Burns with dummy data
+      setupKenBurns('https://picsum.photos/seed/calgary-city/1600/400', 'rgba(140,140,150,0.22)');
+    }
+  }
+
+  // ── SHARED KEN BURNS SETUP ──
+  function setupKenBurns(bgUrl, tintColor) {
+    const stripBg    = document.getElementById('strip-bg');
+    const stripTint  = document.getElementById('strip-tint');
+    const stripFrost = document.getElementById('strip-frost');
+    const strip      = document.getElementById('analytics-strip');
+
+    // Set tint immediately — doesn't need image
+    stripTint.style.background = tintColor;
+
+    // Set background directly without preloading — let browser handle it
+    // Use a landscape photo from picsum that doesn't redirect
+    stripBg.style.backgroundImage = `url('${bgUrl}')`;
+    stripBg.style.backgroundSize = 'cover';
+    stripBg.style.backgroundPosition = 'center';
+
+    // Remove old listeners by cloning
+    const newStrip = strip.cloneNode(true);
+    strip.parentNode.replaceChild(newStrip, strip);
+
+    // Re-grab refs after clone
+    const bg2    = document.getElementById('strip-bg');
+    const tint2  = document.getElementById('strip-tint');
+    const frost2 = document.getElementById('strip-frost');
+
+    // Re-apply tint and bg to cloned elements
+    bg2.style.backgroundImage = `url('${bgUrl}')`;
+    bg2.style.backgroundSize = 'cover';
+    bg2.style.backgroundPosition = 'center';
+    tint2.style.background = tintColor;
+
+    newStrip.addEventListener('mouseenter', () => {
+      bg2.style.transition = 'opacity 0.8s ease';
+      tint2.style.transition = 'opacity 0.8s ease';
+      frost2.style.transition = 'opacity 0.8s ease';
+      bg2.style.opacity = '1';
+      tint2.style.opacity = '1';
+      frost2.style.opacity = '1';
+      bg2.style.animation = 'none';
+      bg2.offsetHeight;
+      bg2.style.animation = 'kenburns 8s ease-in-out forwards';
+    });
+
+    newStrip.addEventListener('mouseleave', () => {
+      bg2.style.opacity = '0';
+      tint2.style.opacity = '0';
+      frost2.style.opacity = '0';
+    });
+  }
+
+  loadAnalytics();
+
+  // ── STAGGER JOBS ──
+  // Stagger job cards on load
+  window.addEventListener('load', () => {
+    const jobs = document.querySelectorAll('.job');
+    jobs.forEach((job, i) => {
+      job.style.opacity = '0';
+      job.style.transform = 'translateY(16px)';
+      job.style.transition = `opacity 0.5s ease ${i * 0.07}s, transform 0.5s ease ${i * 0.07}s`;
+      setTimeout(() => {
+        job.style.opacity = '1';
+        job.style.transform = 'translateY(0)';
+      }, 400 + i * 70);
+    });
+  });
 </script>
 
 </body>
