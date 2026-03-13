@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tenzin Rawang — Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B2A4A;
+    --navy-light: #243659;
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --cream: #FAF8F4;
+    --cream-dark: #F0EDE6;
+    --dark: #1A1A1A;
+    --mid: #4A4A4A;
+    --light: #888888;
+    --rule: #D8D2C8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--navy);
+    padding: 72px 80px 56px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeDown 0.8s ease forwards;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+
+  /* Decorative circle */
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 7vw, 80px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .name span {
+    color: var(--gold);
+  }
+
+  .tagline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--gold-light);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .contact-bar {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-item:hover { color: var(--gold-light); }
+
+  .contact-dot {
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 56px 80px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  /* ── JOB ── */
+  .job {
+    margin-bottom: 36px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .job:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .job-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+
+  .job-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+
+  .job-dates {
+    font-size: 12px;
+    color: var(--light);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    font-style: italic;
+  }
+
+  .job-company {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .job-meta {
+    font-size: 12px;
+    color: var(--light);
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+
+  .bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .bullets li {
+    display: flex;
+    gap: 12px;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--mid);
+  }
+
+  .bullets li::before {
+    content: '▸';
+    color: var(--gold);
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .skill-row {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .skill-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    white-space: nowrap;
+    min-width: 180px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    background: var(--cream-dark);
+    border: 1px solid var(--rule);
+    color: var(--mid);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .tag:hover {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--gold-light);
+  }
+
+  /* ── PRINT BUTTON ── */
+  .print-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--navy);
+    color: var(--gold-light);
+    border: 1px solid var(--gold);
+    padding: 12px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    z-index: 100;
+  }
+
+  .print-btn:hover {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; }
+    body::before { display: none; }
+    .print-btn { display: none; }
+    .header { animation: none; opacity: 1; padding: 40px 48px 32px; }
+    .section { opacity: 1; transform: none; }
+    .page { padding: 32px 48px; }
+    .tag:hover { background: var(--cream-dark); color: var(--mid); border-color: var(--rule); }
+  }
+
+  @media (max-width: 680px) {
+    .header { padding: 48px 28px 40px; }
+    .page { padding: 40px 28px 60px; }
+    .skill-row { flex-direction: column; gap: 8px; }
+    .skill-label { min-width: unset; }
+    .job-top { flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <h1 class="name">Tenzin <span>Rawang</span></h1>
+    <p class="tagline">Marketing Operations &nbsp;·&nbsp; Digital Marketing &nbsp;·&nbsp; Ecommerce</p>
+    <div class="contact-bar">
+      <span class="contact-item"><span class="contact-dot"></span>Calgary, Alberta, Canada</span>
+      <a href="https://linkedin.com/in/tenzin-r-8b14a5a4" class="contact-item" target="_blank" rel="noopener noreferrer"><span class="contact-dot"></span>linkedin.com/in/tenzin-r-8b14a5a4</a>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ── EXPERIENCE ── -->
+  <section class="section" data-section>
+    <div class="section-header">
+      <span class="section-title">Experience</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <!-- NYR -->
+    <div class="job">
+      <div class="job-top">
+        <h2 class="job-title">Marketing Operations Specialist</h2>
+        <span class="job-dates">Apr 2023 – Present</span>
+      </div>
+      <div class="job-company">Neal's Yard Remedies Canada</div>
+      <div class="job-meta">Permanent Full-time &nbsp;·&nbsp; Calgary, AB &nbsp;·&nbsp; On-site</div>
+      <ul class="bullets">
+        <li>Improved Shopify site performance by 20% through theme migration, JavaScript cleanup, and app consolidation, reducing load times, enhancing user experience, and supporting stronger conversion performance.</li>
+        <li>Owned end-to-end email marketing operations in Klaviyo, including campaign execution, audience segmentation, automated lifecycle flows, retention strategy, and performance optimization.</li>
+        <li>Led A/B testing across subject lines, email creative, and messaging to improve open rates, click-through rates, and overall campaign effectiveness.</li>
+        <li>Built and maintained full-funnel tracking and attribution across Shopify, GA4, Google Tag Manager, and Google Ads, enabling more accurate conversion tracking, ROI measurement, and paid media optimization.</li>
+        <li>Tracked and reported on key KPIs including CAC, CLV, churn rate, AOV, and conversion rate to support campaign planning, budget allocation, and growth decisions.</li>
+        <li>Conducted analysis using Python (Pandas) and Excel to evaluate campaign, customer, sales, and product performance, driving more informed, data-backed decisions.</li>
+        <li>Audited and optimized the marketing technology stack by consolidating tools, removing redundancies, and improving workflow efficiency, reducing costs and operational complexity.</li>
+        <li>Developed custom front-end solutions in HTML, CSS, and JavaScript to support campaign landing pages, onsite merchandising, and digital experience improvements.</li>
+        <li>Improved inventory accuracy by strengthening workflows, product data consistency, and operational controls in Cin7, resulting in more reliable stock visibility and order fulfillment.</li>
+        <li>Enhanced COGS accuracy and reporting reliability by improving inventory processes, integration quality, and cross-system data alignment.</li>
+        <li>Improved integrations and data flow across ecommerce, marketing, and operational systems, reducing manual work and increasing reporting consistency.</li>
+        <li>Managed multichannel commerce operations across Shopify, Amazon, B2B, Facebook, and Google, maintaining product data consistency, channel readiness, and performance visibility.</li>
+      </ul>
+    </div>
+
+    <!-- Container Land -->
+    <div class="job">
+      <div class="job-top">
+        <h2 class="job-title">Digital Marketing Specialist</h2>
+        <span class="job-dates">May 2018 – Sep 2023</span>
+      </div>
+      <div class="job-company">Container Land & Storage</div>
+      <div class="job-meta">Freelance &nbsp;·&nbsp; Calgary, AB</div>
+      <ul class="bullets">
+        <li>Grew revenue by 10%+ through SEO strategy, keyword targeting, and on-page optimization.</li>
+        <li>Built a custom email marketing application that reduced email sending time from 10 minutes to seconds.</li>
+        <li>Planned and executed paid ad campaigns across search and social, driving audience growth and measurable reach improvements.</li>
+        <li>Reported on campaign performance monthly, translating data into optimization recommendations for ongoing and future initiatives.</li>
+      </ul>
+    </div>
+
+    <!-- Bay River -->
+    <div class="job">
+      <div class="job-top">
+        <h2 class="job-title">Digital Marketing Specialist</h2>
+        <span class="job-dates">Feb 2021 – May 2021</span>
+      </div>
+      <div class="job-company">Bay River College</div>
+      <div class="job-meta">Permanent Full-time &nbsp;·&nbsp; Calgary, AB</div>
+      <ul class="bullets">
+        <li>Reduced customer acquisition cost by 30% through targeted digital ad campaigns and brand messaging for a new course launch.</li>
+        <li>Segmented audiences and built personalized email marketing flows using behavioral and demographic data.</li>
+        <li>Trained a Marketing Coordinator on keyword research and competitive analysis using Semrush and Google Keyword Planner.</li>
+        <li>Produced marketing materials including infographics, posters, and brochures to support product awareness campaigns.</li>
+      </ul>
+    </div>
+
+    <!-- Go Cleaning -->
+    <div class="job">
+      <div class="job-top">
+        <h2 class="job-title">Web Developer & Digital Marketer</h2>
+        <span class="job-dates">Dec 2018 – Feb 2021</span>
+      </div>
+      <div class="job-company">Go Cleaning Calgary</div>
+      <div class="job-meta">Part-time &nbsp;·&nbsp; Calgary, AB</div>
+      <ul class="bullets">
+        <li>Grew company revenue by 50% through SEO and digital marketing, achieving first-page rankings on high-intent local keywords.</li>
+        <li>Built the company's website from scratch using a custom WordPress classic theme in HTML, CSS, and JavaScript.</li>
+        <li>Implemented Zoho CRM to bring the company online and digitize client relationship management.</li>
+        <li>Improved search performance through ongoing content optimization, keyword relevancy, and branding alignment.</li>
+      </ul>
+    </div>
+
+    <!-- BigRewa -->
+    <div class="job">
+      <div class="job-top">
+        <h2 class="job-title">Founder</h2>
+        <span class="job-dates">Jul 2018 – Feb 2021</span>
+      </div>
+      <div class="job-company">BigRewa — Email Marketing</div>
+      <div class="job-meta">Self-employed &nbsp;·&nbsp; Calgary, AB</div>
+      <ul class="bullets">
+        <li>Designed, built, and deployed a custom email marketing application from the ground up, reducing send time from 10 minutes to seconds.</li>
+        <li>Built business intelligence tooling to support campaign reporting and performance tracking.</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- ── SKILLS ── -->
+  <section class="section" data-section>
+    <div class="section-header">
+      <span class="section-title">Skills & Tools</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-row">
+        <span class="skill-label">Marketing & Analytics</span>
+        <div class="skill-tags">
+          <span class="tag">Klaviyo</span>
+          <span class="tag">GA4</span>
+          <span class="tag">Google Tag Manager</span>
+          <span class="tag">Google Ads</span>
+          <span class="tag">Semrush</span>
+          <span class="tag">A/B Testing</span>
+          <span class="tag">CAC / CLV / AOV</span>
+          <span class="tag">Email Automation</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Ecommerce & Ops</span>
+        <div class="skill-tags">
+          <span class="tag">Shopify</span>
+          <span class="tag">Cin7</span>
+          <span class="tag">Amazon</span>
+          <span class="tag">Zoho CRM</span>
+          <span class="tag">Facebook</span>
+          <span class="tag">B2B</span>
+          <span class="tag">Multichannel</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Technical</span>
+        <div class="skill-tags">
+          <span class="tag">Python (Pandas)</span>
+          <span class="tag">Excel</span>
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">WordPress</span>
+          <span class="tag">Liquid</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+
+<script>
+  // Intersection observer for scroll-in animations
+  const sections = document.querySelectorAll('[data-section]');
+  let sectionIndex = 0;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const idx = sectionIndex++;
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+          // Stagger job cards after section becomes visible
+          const jobs = entry.target.querySelectorAll('.job');
+          jobs.forEach((job, j) => {
+            job.style.opacity = '0';
+            job.style.transform = 'translateY(16px)';
+            job.style.transition = `opacity 0.5s ease ${j * 0.07}s, transform 0.5s ease ${j * 0.07}s`;
+            requestAnimationFrame(() => {
+              job.style.opacity = '1';
+              job.style.transform = 'translateY(0)';
+            });
+          });
+        }, idx * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
