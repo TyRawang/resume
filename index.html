@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tenzin Rawang — Resume</title>
+<meta name="description" content="Resume of Tenzin Rawang — Marketing Operations Specialist with expertise in digital marketing, ecommerce, and data-driven campaign strategy based in Calgary, Alberta.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500&family=Merriweather:wght@300;400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
+    --font-heading: 'Cormorant Garamond', serif;
+    --font-body: 'DM Sans', sans-serif;
     --navy: #1B2A4A;
     --navy-light: #243659;
     --gold: #C9A84C;
@@ -16,7 +19,7 @@
     --cream-dark: #F0EDE6;
     --dark: #1A1A1A;
     --mid: #4A4A4A;
-    --light: #888888;
+    --light: #6B6B6B;
     --rule: #D8D2C8;
   }
 
@@ -27,7 +30,7 @@
   body {
     background: var(--cream);
     color: var(--dark);
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-body);
     font-weight: 300;
     line-height: 1.6;
     min-height: 100vh;
@@ -80,7 +83,7 @@
   }
 
   .name {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-heading);
     font-size: clamp(48px, 7vw, 80px);
     font-weight: 600;
     color: var(--header-text, #fff);
@@ -94,7 +97,7 @@
   }
 
   .tagline {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
     font-weight: 400;
     color: var(--gold-light);
@@ -160,7 +163,7 @@
   }
 
   .section-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-heading);
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.22em;
@@ -197,7 +200,7 @@
   }
 
   .job-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-heading);
     font-size: 22px;
     font-weight: 600;
     color: var(--job-title-color, var(--navy));
@@ -265,7 +268,7 @@
   }
 
   .skill-label {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-heading);
     font-size: 15px;
     font-weight: 600;
     color: var(--section-title-color, var(--navy));
@@ -296,28 +299,44 @@
     color: var(--tag-hover-color, var(--gold-light));
   }
 
-  /* ── PRINT BUTTON ── */
-  .print-btn {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    background: var(--navy);
-    color: var(--gold-light);
-    border: 1px solid var(--gold);
-    padding: 12px 24px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: all 0.2s;
-    z-index: 100;
+  /* (print/pdf buttons styled below in print section) */
+
+  /* ── TYPED INTRO ── */
+  .typed-cursor {
+    display: inline-block;
+    width: 3px;
+    margin-left: 2px;
+    background: var(--gold);
+    animation: blink-cursor 0.7s step-end infinite;
+    vertical-align: baseline;
   }
 
-  .print-btn:hover {
-    background: var(--gold);
-    color: var(--navy);
+  .name .typed-cursor {
+    height: 0.85em;
+  }
+
+  .tagline .typed-cursor {
+    height: 1em;
+  }
+
+  .tagline.typing-done .typed-cursor,
+  .name.typing-done .typed-cursor {
+    animation: blink-cursor 0.7s step-end 3;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .contact-bar {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .contact-bar.visible {
+    opacity: 1;
   }
 
   /* ── ANIMATIONS ── */
@@ -327,15 +346,83 @@
   }
 
   /* ── PRINT ── */
+  /* ── NO-JS FALLBACK ── */
+  html.no-js .section {
+    opacity: 1;
+    transform: none;
+  }
+  html.no-js .contact-bar {
+    opacity: 1;
+  }
+  html.no-js .typed-cursor {
+    display: none;
+  }
+
+  /* ── REDUCED MOTION ── */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    .ticker-track { animation-play-state: paused; }
+    .section {
+      opacity: 1;
+      transform: none;
+    }
+    .contact-bar { opacity: 1; }
+    .typed-cursor { display: none; }
+  }
+
   @media print {
-    body { background: white; }
+    body { background: var(--cream); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     body::before { display: none; }
-    .print-btn { display: none; }
-    .header { animation: none; opacity: 1; }
+    .pdf-btn { display: none; }
+    .header { animation: none; opacity: 1; padding: 40px 48px 32px; }
+    .contact-bar { opacity: 1; }
+    .typed-cursor { display: none; }
     .section { opacity: 1; transform: none; }
     .page { padding: 32px 48px; }
-    .header { padding: 40px 48px 32px; }
+    .job { opacity: 1 !important; transform: none !important; }
     .tag:hover { background: var(--cream-dark); color: var(--mid); border-color: var(--rule); }
+  }
+
+  /* ── PDF / PRINT BUTTONS ── */
+  .btn-group {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+
+  .pdf-btn {
+    background: var(--navy);
+    color: var(--gold-light);
+    border: 1px solid var(--gold);
+    padding: 12px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pdf-btn:hover {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  .pdf-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
   }
 
   @media (max-width: 680px) {
@@ -472,7 +559,7 @@
   }
 
   .astrip-value {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-heading);
     font-size: 15px;
     font-weight: 600;
     color: var(--job-title-color, var(--navy));
@@ -518,7 +605,7 @@
   }
 
   @media print {
-    .sticky-ticker, .scroll-progress, .analytics-strip, .theme-toggle, .theme-panel { display: none; }
+    .sticky-ticker, .scroll-progress, .analytics-strip, .theme-toggle, .theme-panel, .btn-group { display: none; }
   }
 
   /* ── THEME CUSTOMIZER ── */
@@ -544,7 +631,8 @@
     transform: scale(1.08);
   }
 
-  .theme-toggle svg { transition: transform 0.3s ease; }
+  .theme-toggle svg { transition: transform 0.3s ease, stroke 0.2s ease; }
+  .theme-toggle:hover svg { stroke: var(--navy); }
   .theme-toggle.active svg { transform: rotate(45deg); }
 
   .theme-panel {
@@ -571,7 +659,7 @@
   }
 
   .theme-panel-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-heading);
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.18em;
@@ -610,33 +698,95 @@
 
   .theme-presets {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    gap: 10px;
     margin-bottom: 14px;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--rule);
+    justify-content: center;
   }
 
   .theme-preset {
-    flex: 1;
-    min-width: 0;
-    padding: 6px 0;
-    font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+
+  .theme-preset-swatch {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--rule);
+    overflow: hidden;
+    display: flex;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .theme-preset:hover .theme-preset-swatch {
+    border-color: var(--gold);
+    transform: scale(1.12);
+  }
+
+  .theme-preset-swatch .half {
+    width: 50%;
+    height: 100%;
+  }
+
+  .theme-preset-label {
+    font-size: 8px;
     font-family: 'DM Sans', sans-serif;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    text-align: center;
-    border: 1px solid var(--rule);
-    border-radius: 3px;
-    background: var(--cream);
-    color: var(--mid);
-    cursor: pointer;
-    transition: all 0.2s;
+    color: var(--light);
+    transition: color 0.2s;
   }
 
-  .theme-preset:hover {
+  .theme-preset:hover .theme-preset-label {
+    color: var(--mid);
+  }
+
+  .font-presets {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .font-preset {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+  }
+
+  .font-preset:hover {
     border-color: var(--gold);
-    color: var(--navy);
+  }
+
+  .font-preset.active {
+    border-color: var(--gold);
+    background: var(--cream-dark);
+  }
+
+  .font-preset-heading {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1;
+  }
+
+  .font-preset-body {
+    font-size: 10px;
+    color: var(--light);
+    line-height: 1;
   }
 
   .theme-reset {
@@ -661,13 +811,287 @@
     color: var(--navy);
   }
 
+  .layout-section-label {
+    font-family: var(--font-heading);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .layout-presets {
+    display: flex;
+    gap: 6px;
+  }
+
+  .layout-preset {
+    flex: 1;
+    padding: 6px 0;
+    font-size: 10px;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: center;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: var(--cream);
+    color: var(--mid);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .layout-preset:hover {
+    border-color: var(--gold);
+    color: var(--navy);
+  }
+
+  .layout-preset.active {
+    border-color: var(--gold);
+    background: var(--navy);
+    color: var(--gold-light);
+  }
+
+  /* ── SIDEBAR LAYOUT ── */
+  body.layout-sidebar .header {
+    padding: 48px 48px 40px;
+  }
+
+  body.layout-sidebar .header-inner {
+    max-width: 1100px;
+  }
+
+  /* Default: wrapper divs are invisible */
+  .sidebar-wrap { display: contents; }
+  .sidebar-left { display: contents; }
+
+  /* ── SIDEBAR LAYOUT ── */
+  body.layout-sidebar .page {
+    max-width: 1100px;
+    padding: 0 48px 80px;
+  }
+
+  body.layout-sidebar .analytics-strip {
+    margin-bottom: 40px;
+  }
+
+  body.layout-sidebar .sidebar-wrap {
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+  }
+
+  body.layout-sidebar .sidebar-left {
+    display: block;
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 48px;
+    order: 1;
+  }
+
+  body.layout-sidebar .sidebar-left .section {
+    margin-bottom: 24px;
+  }
+
+  body.layout-sidebar .section-main {
+    flex: 1;
+    min-width: 0;
+    order: 2;
+  }
+
+  body.layout-sidebar .skill-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  body.layout-sidebar .skill-label {
+    min-width: unset;
+    font-size: 13px;
+  }
+
+  body.layout-sidebar .tag {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  /* ── COMPACT LAYOUT ── */
+  body.layout-compact .header {
+    padding: 36px 48px 28px;
+  }
+
+  body.layout-compact .name {
+    font-size: clamp(32px, 5vw, 48px);
+    margin-bottom: 6px;
+  }
+
+  body.layout-compact .tagline {
+    font-size: 11px;
+    margin-bottom: 16px;
+    letter-spacing: 0.14em;
+  }
+
+  body.layout-compact .contact-item {
+    font-size: 11px;
+  }
+
+  body.layout-compact .page {
+    max-width: 800px;
+    padding: 28px 48px 48px;
+  }
+
+  body.layout-compact .section {
+    margin-bottom: 24px;
+  }
+
+  body.layout-compact .section-header {
+    margin-bottom: 16px;
+  }
+
+  body.layout-compact .job {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+  }
+
+  body.layout-compact .job-title {
+    font-size: 17px;
+  }
+
+  body.layout-compact .job-company {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  body.layout-compact .job-meta {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  body.layout-compact .job-dates {
+    font-size: 11px;
+  }
+
+  body.layout-compact .bullets {
+    gap: 4px;
+  }
+
+  body.layout-compact .bullets li {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  body.layout-compact .skill-row {
+    gap: 10px;
+  }
+
+  body.layout-compact .skill-label {
+    font-size: 13px;
+    min-width: 140px;
+  }
+
+  body.layout-compact .tag {
+    font-size: 11px;
+    padding: 2px 7px;
+  }
+
+  body.layout-compact .skills-grid {
+    gap: 8px;
+  }
+
+  body.layout-compact .analytics-strip {
+    margin-bottom: 24px;
+    padding: 10px 0;
+  }
+
+  body.layout-compact .astrip-label {
+    font-size: 8px;
+  }
+
+  body.layout-compact .astrip-value {
+    font-size: 13px;
+  }
+
+  body.layout-compact .astrip-sub {
+    font-size: 9px;
+  }
+
+  /* ── TIMELINE LAYOUT ── */
+  body.layout-timeline .job {
+    position: relative;
+    padding-left: 28px;
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 32px;
+    border-left: 2px solid var(--rule);
+    margin-left: 4px;
+  }
+
+  body.layout-timeline .job::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+
+  body.layout-timeline .job:last-child {
+    border-left-color: transparent;
+    padding-bottom: 0;
+  }
+
+  body.layout-timeline .job-top {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  body.layout-timeline .job-dates {
+    font-style: normal;
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  /* Sidebar responsive override */
+  @media (max-width: 780px) {
+    body.layout-sidebar .page {
+      padding: 40px 28px 60px;
+    }
+    body.layout-sidebar .sidebar-wrap {
+      display: contents;
+    }
+    body.layout-sidebar .sidebar-left {
+      display: contents;
+    }
+  }
+
   @media (max-width: 680px) {
     .theme-panel { right: 16px; bottom: 136px; width: 240px; }
     .theme-toggle { right: 16px; bottom: 80px; }
+    body.layout-compact .header { padding: 28px 20px 20px; }
+    body.layout-compact .page { padding: 20px 20px 40px; }
+  }
+
+  @media print {
+    body.layout-sidebar .sidebar-wrap { display: contents; }
+    body.layout-sidebar .sidebar-left { display: contents; }
+    body.layout-timeline .job { border-left: 2px solid var(--rule); }
+    body.layout-timeline .job::before { background: var(--gold); }
   }
 </style>
 </head>
 <body>
+<script>document.documentElement.classList.replace('no-js','js');</script>
+<noscript><style>.section { opacity: 1; transform: none; }</style></noscript>
 
 <!-- Scroll progress bar -->
 <div class="scroll-progress" id="scroll-progress"></div>
@@ -679,13 +1103,14 @@
   </div>
 </div>
 
+<div id="resume-content">
 <header class="header">
   <div class="header-inner">
-    <h1 class="name">Tenzin <span>Rawang</span></h1>
-    <p class="tagline">Marketing Operations &nbsp;·&nbsp; Digital Marketing &nbsp;·&nbsp; Ecommerce</p>
+    <h1 class="name" id="typed-name">Tenzin <span>Rawang</span></h1>
+    <p class="tagline" id="typed-tagline">Marketing Operations &nbsp;·&nbsp; Digital Marketing &nbsp;·&nbsp; Ecommerce</p>
     <div class="contact-bar">
       <span class="contact-item"><span class="contact-dot"></span>Calgary, Alberta, Canada</span>
-      <a href="https://linkedin.com/in/tenzin-r-8b14a5a4" class="contact-item" target="_blank"><span class="contact-dot"></span>linkedin.com/in/tenzin-r-8b14a5a4</a>
+      <a href="https://linkedin.com/in/tyrawang" class="contact-item" target="_blank" rel="noopener noreferrer"><span class="contact-dot"></span>linkedin.com/in/tenzin-r-8b14a5a4</a>
     </div>
   </div>
 </header>
@@ -730,8 +1155,9 @@
     </div>
   </div>
 
+  <div class="sidebar-wrap">
   <!-- ── EXPERIENCE ── -->
-  <section class="section" data-section>
+  <section class="section section-main" data-section>
     <div class="section-header">
       <span class="section-title">Experience</span>
       <div class="section-rule"></div>
@@ -825,54 +1251,83 @@
 
   </section>
 
-  <!-- ── SKILLS ── -->
-  <section class="section" data-section>
-    <div class="section-header">
-      <span class="section-title">Skills & Tools</span>
-      <div class="section-rule"></div>
+    <div class="sidebar-left">
+      <!-- ── SKILLS ── -->
+      <section class="section section-side" data-section>
+        <div class="section-header">
+          <span class="section-title">Skills & Tools</span>
+          <div class="section-rule"></div>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-row">
+            <span class="skill-label">Marketing & Analytics</span>
+            <div class="skill-tags">
+              <span class="tag">Klaviyo</span>
+              <span class="tag">GA4</span>
+              <span class="tag">Google Tag Manager</span>
+              <span class="tag">Google Ads</span>
+              <span class="tag">Semrush</span>
+              <span class="tag">A/B Testing</span>
+              <span class="tag">CAC / CLV / AOV</span>
+              <span class="tag">Email Automation</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">Ecommerce & Ops</span>
+            <div class="skill-tags">
+              <span class="tag">Shopify</span>
+              <span class="tag">Cin7</span>
+              <span class="tag">Amazon</span>
+              <span class="tag">Zoho CRM</span>
+              <span class="tag">Facebook</span>
+              <span class="tag">B2B</span>
+              <span class="tag">Multichannel</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">Technical</span>
+            <div class="skill-tags">
+              <span class="tag">Python (Pandas)</span>
+              <span class="tag">Excel</span>
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">WordPress</span>
+              <span class="tag">Liquid</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── EDUCATION ── -->
+      <section class="section section-side" data-section>
+        <div class="section-header">
+          <span class="section-title">Education</span>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="job">
+          <div class="job-top">
+            <h2 class="job-title">Bachelor of Commerce (BCom)</h2>
+            <span class="job-dates">2018 – 2026</span>
+          </div>
+          <div class="job-company">The University of Lethbridge</div>
+          <div class="job-meta">Business, Management, Marketing & Related Support Services</div>
+        </div>
+
+        <div class="job">
+          <div class="job-top">
+            <h2 class="job-title">Diploma, Information Technology</h2>
+            <span class="job-dates">2016 – 2018</span>
+          </div>
+          <div class="job-company">Southern Alberta Institute of Technology (SAIT)</div>
+        </div>
+      </section>
     </div>
-    <div class="skills-grid">
-      <div class="skill-row">
-        <span class="skill-label">Marketing & Analytics</span>
-        <div class="skill-tags">
-          <span class="tag">Klaviyo</span>
-          <span class="tag">GA4</span>
-          <span class="tag">Google Tag Manager</span>
-          <span class="tag">Google Ads</span>
-          <span class="tag">Semrush</span>
-          <span class="tag">A/B Testing</span>
-          <span class="tag">CAC / CLV / AOV</span>
-          <span class="tag">Email Automation</span>
-        </div>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Ecommerce & Ops</span>
-        <div class="skill-tags">
-          <span class="tag">Shopify</span>
-          <span class="tag">Cin7</span>
-          <span class="tag">Amazon</span>
-          <span class="tag">Zoho CRM</span>
-          <span class="tag">Facebook</span>
-          <span class="tag">B2B</span>
-          <span class="tag">Multichannel</span>
-        </div>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Technical</span>
-        <div class="skill-tags">
-          <span class="tag">Python (Pandas)</span>
-          <span class="tag">Excel</span>
-          <span class="tag">HTML</span>
-          <span class="tag">CSS</span>
-          <span class="tag">JavaScript</span>
-          <span class="tag">WordPress</span>
-          <span class="tag">Liquid</span>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
 
 </main>
+</div><!-- /resume-content -->
 
 <!-- Theme customizer -->
 <button class="theme-toggle" id="theme-toggle" aria-label="Customize colors">
@@ -886,33 +1341,236 @@
   <div class="theme-panel-title">Theme</div>
 
   <div class="theme-presets">
-    <button class="theme-preset" data-preset="default">Classic</button>
-    <button class="theme-preset" data-preset="dark">Dark</button>
-    <button class="theme-preset" data-preset="ocean">Ocean</button>
-    <button class="theme-preset" data-preset="warm">Warm</button>
-    <button class="theme-preset" data-preset="forest">Forest</button>
-    <button class="theme-preset" data-preset="minimal">Minimal</button>
+    <button class="theme-preset" data-preset="default">
+      <span class="theme-preset-swatch"><span class="half" style="background:#1B2A4A"></span><span class="half" style="background:#C9A84C"></span></span>
+      <span class="theme-preset-label">Classic</span>
+    </button>
+    <button class="theme-preset" data-preset="dark">
+      <span class="theme-preset-swatch"><span class="half" style="background:#0D1117"></span><span class="half" style="background:#58A6FF"></span></span>
+      <span class="theme-preset-label">Dark</span>
+    </button>
+    <button class="theme-preset" data-preset="ocean">
+      <span class="theme-preset-swatch"><span class="half" style="background:#0F3460"></span><span class="half" style="background:#16C79A"></span></span>
+      <span class="theme-preset-label">Ocean</span>
+    </button>
+    <button class="theme-preset" data-preset="warm">
+      <span class="theme-preset-swatch"><span class="half" style="background:#5C3D2E"></span><span class="half" style="background:#D4813B"></span></span>
+      <span class="theme-preset-label">Warm</span>
+    </button>
+    <button class="theme-preset" data-preset="forest">
+      <span class="theme-preset-swatch"><span class="half" style="background:#1B3A2D"></span><span class="half" style="background:#8FB339"></span></span>
+      <span class="theme-preset-label">Forest</span>
+    </button>
+    <button class="theme-preset" data-preset="minimal">
+      <span class="theme-preset-swatch"><span class="half" style="background:#222222"></span><span class="half" style="background:#888888"></span></span>
+      <span class="theme-preset-label">Minimal</span>
+    </button>
   </div>
 
   <div class="theme-color-row">
-    <span class="theme-color-label">Primary</span>
+    <label class="theme-color-label" for="color-primary">Primary</label>
     <input type="color" class="theme-color-input" id="color-primary" value="#1B2A4A">
   </div>
   <div class="theme-color-row">
-    <span class="theme-color-label">Accent</span>
+    <label class="theme-color-label" for="color-accent">Accent</label>
     <input type="color" class="theme-color-input" id="color-accent" value="#C9A84C">
   </div>
   <div class="theme-color-row">
-    <span class="theme-color-label">Background</span>
+    <label class="theme-color-label" for="color-bg">Background</label>
     <input type="color" class="theme-color-input" id="color-bg" value="#FAF8F4">
   </div>
 
-  <button class="theme-reset" id="theme-reset">Reset to Default</button>
+  <div class="layout-section-label">Font</div>
+  <div class="font-presets">
+    <button class="font-preset active" data-font="garamond">
+      <span class="font-preset-heading" style="font-family:'Cormorant Garamond',serif">Garamond</span>
+      <span class="font-preset-body" style="font-family:'DM Sans',sans-serif">DM Sans</span>
+    </button>
+    <button class="font-preset" data-font="playfair">
+      <span class="font-preset-heading" style="font-family:'Playfair Display',serif">Playfair</span>
+      <span class="font-preset-body" style="font-family:'Inter',sans-serif">Inter</span>
+    </button>
+    <button class="font-preset" data-font="lora">
+      <span class="font-preset-heading" style="font-family:'Lora',serif">Lora</span>
+      <span class="font-preset-body" style="font-family:'Source Sans 3',sans-serif">Source Sans</span>
+    </button>
+    <button class="font-preset" data-font="merriweather">
+      <span class="font-preset-heading" style="font-family:'Merriweather',serif">Merriweather</span>
+      <span class="font-preset-body" style="font-family:'Roboto',sans-serif">Roboto</span>
+    </button>
+  </div>
+
+  <div class="layout-section-label">Layout</div>
+  <div class="layout-presets">
+    <button class="layout-preset active" data-layout="classic">Classic</button>
+    <button class="layout-preset" data-layout="sidebar">Sidebar</button>
+    <button class="layout-preset" data-layout="compact">Compact</button>
+    <button class="layout-preset" data-layout="timeline">Timeline</button>
+  </div>
+
+  <button class="theme-reset" id="theme-reset">Reset All</button>
 </div>
 
-<button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+<div class="btn-group">
+  <button class="pdf-btn" id="download-pdf">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    PDF
+  </button>
+  <button class="pdf-btn" id="print-btn" aria-label="Print resume">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Print
+  </button>
+</div>
 
 <script>
+  // ── SAFE LOCALSTORAGE HELPERS ──
+  function safeLSGet(key) {
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+  }
+  function safeLSSet(key, val) {
+    try { localStorage.setItem(key, val); } catch (e) { /* storage full or blocked */ }
+  }
+
+  // ── PRINT BUTTON ──
+  document.getElementById('print-btn').addEventListener('click', function() {
+    window.print();
+  });
+
+  // ── PDF DOWNLOAD (lazy-loads html2pdf.js) ──
+  function loadHtml2Pdf() {
+    return new Promise(function(resolve, reject) {
+      if (window.html2pdf) return resolve();
+      var script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js';
+      script.integrity = 'sha512-MpDFIChbcXl2QgipQrt1VcPHMldRILetapBl5MPCA9Y8r7qvlwx1/Mc9hNTzY+kS5kX6PdoDq41ws1HiVNLdZA==';
+      script.crossOrigin = 'anonymous';
+      script.onload = resolve;
+      script.onerror = function() { reject(new Error('Failed to load html2pdf.js')); };
+      document.head.appendChild(script);
+    });
+  }
+
+  document.getElementById('download-pdf').addEventListener('click', function() {
+    const btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Loading...';
+
+    loadHtml2Pdf().then(function() {
+      btn.textContent = 'Generating...';
+      generatePdf(btn);
+    }).catch(function(err) {
+      console.error(err);
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PDF';
+    });
+  });
+
+  function generatePdf(btn) {
+
+    const resumeEl = document.getElementById('resume-content');
+    const header = resumeEl.querySelector('.header');
+    const sections = resumeEl.querySelectorAll('.section');
+    const jobs = resumeEl.querySelectorAll('.job');
+    const analyticsStrip = resumeEl.querySelector('.analytics-strip');
+
+    // Make everything visible and hide non-resume elements
+    header.style.opacity = '1';
+    header.style.animation = 'none';
+    sections.forEach(s => { s.style.opacity = '1'; s.style.transform = 'none'; });
+    jobs.forEach(j => { j.style.opacity = '1'; j.style.transform = 'none'; });
+    if (analyticsStrip) analyticsStrip.style.display = 'none';
+
+    // For sidebar layout, temporarily linearize for PDF
+    const isSidebar = document.body.classList.contains('layout-sidebar');
+    const page = resumeEl.querySelector('.page');
+    if (isSidebar && page) {
+      page.style.display = 'block';
+      page.style.maxWidth = '800px';
+    }
+
+    const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--cream').trim() || '#FAF8F4';
+
+    // Compact styles for PDF
+    resumeEl.style.width = '700px';
+    resumeEl.style.maxWidth = '700px';
+    resumeEl.style.overflow = 'hidden';
+    header.style.padding = '24px 32px 20px';
+    header.querySelector('.header-inner').style.maxWidth = '100%';
+    const nameEl = header.querySelector('.name');
+    nameEl.style.fontSize = '36px';
+    nameEl.style.marginBottom = '6px';
+    const taglineEl = header.querySelector('.tagline');
+    taglineEl.style.marginBottom = '12px';
+    taglineEl.style.fontSize = '10px';
+    if (page) { page.style.padding = '20px 32px 24px'; page.style.maxWidth = '100%'; page.style.display = 'block'; }
+
+    // Linearize sidebar layout for PDF
+    const sidebarWrap = resumeEl.querySelector('.sidebar-wrap');
+    const sidebarLeft = resumeEl.querySelector('.sidebar-left');
+    if (sidebarWrap) sidebarWrap.style.display = 'contents';
+    if (sidebarLeft) sidebarLeft.style.display = 'contents';
+
+    // Compact sections and jobs
+    sections.forEach(s => { s.style.marginBottom = '20px'; });
+    const sectionHeaders = resumeEl.querySelectorAll('.section-header');
+    sectionHeaders.forEach(sh => { sh.style.marginBottom = '14px'; });
+    jobs.forEach(j => { j.style.marginBottom = '16px'; j.style.paddingBottom = '16px'; });
+    const bullets = resumeEl.querySelectorAll('.bullets li');
+    bullets.forEach(b => { b.style.fontSize = '11.5px'; b.style.lineHeight = '1.5'; });
+    const jobTitles = resumeEl.querySelectorAll('.job-title');
+    jobTitles.forEach(jt => { jt.style.fontSize = '16px'; });
+    const jobCompanies = resumeEl.querySelectorAll('.job-company');
+    jobCompanies.forEach(jc => { jc.style.fontSize = '11px'; jc.style.marginBottom = '6px'; });
+    const jobMetas = resumeEl.querySelectorAll('.job-meta');
+    jobMetas.forEach(jm => { jm.style.fontSize = '10px'; jm.style.marginBottom = '6px'; });
+    const tags = resumeEl.querySelectorAll('.tag');
+    tags.forEach(t => { t.style.fontSize = '10px'; t.style.padding = '2px 6px'; });
+    const skillLabels = resumeEl.querySelectorAll('.skill-label');
+    skillLabels.forEach(sl => { sl.style.fontSize = '12px'; sl.style.minWidth = '130px'; });
+    const skillsGrid = resumeEl.querySelector('.skills-grid');
+    if (skillsGrid) skillsGrid.style.gap = '6px';
+
+    html2pdf().set({
+      margin: [0.4, 0.5, 0.4, 0.5],
+      filename: 'Tenzin-Rawang-Resume.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: bgColor,
+        scrollY: 0,
+        width: 700
+      },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+      pagebreak: { mode: ['css', 'legacy'], avoid: ['.job', '.skill-row', '.section-header'] }
+    }).from(resumeEl).save().catch(function(err) {
+      console.error('PDF generation failed:', err);
+    }).finally(function() {
+      // Restore all temporary PDF styles
+      resumeEl.style.cssText = '';
+      header.style.cssText = '';
+      header.querySelector('.header-inner').style.cssText = '';
+      nameEl.style.cssText = '';
+      taglineEl.style.cssText = '';
+      if (page) page.style.cssText = '';
+      sections.forEach(s => { s.style.cssText = ''; });
+      sectionHeaders.forEach(sh => { sh.style.cssText = ''; });
+      jobs.forEach(j => { j.style.cssText = ''; });
+      bullets.forEach(b => { b.style.cssText = ''; });
+      jobTitles.forEach(jt => { jt.style.cssText = ''; });
+      jobCompanies.forEach(jc => { jc.style.cssText = ''; });
+      jobMetas.forEach(jm => { jm.style.cssText = ''; });
+      tags.forEach(t => { t.style.cssText = ''; });
+      skillLabels.forEach(sl => { sl.style.cssText = ''; });
+      if (skillsGrid) skillsGrid.style.cssText = '';
+      if (sidebarWrap) sidebarWrap.style.cssText = '';
+      if (sidebarLeft) sidebarLeft.style.cssText = '';
+      if (analyticsStrip) analyticsStrip.style.display = '';
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PDF';
+    });
+  }
+
   // Intersection observer for scroll-in animations
   const sections = document.querySelectorAll('[data-section]');
   const observer = new IntersectionObserver((entries) => {
@@ -1004,29 +1662,67 @@
   }
 
   // ── TICKER HELPERS ──
+  // Intentional: third-party calls to ipapi.co and wttr.in are used without
+  // consent prompts because this is a personal portfolio/resume site and the
+  // data is only used for the visitor analytics strip display.
+
   const tickerData = {};
+  const tickerRefs = {};   // key -> { strongEl1, strongEl2 } for both halves
+  let tickerBuilt = false;
+
   function updateTickerItem(key, val) {
     tickerData[key] = val;
-    rebuildTicker();
+    if (tickerBuilt && tickerRefs[key]) {
+      tickerRefs[key].strongEl1.textContent = val;
+      tickerRefs[key].strongEl2.textContent = val;
+    } else {
+      rebuildTicker();
+    }
+  }
+
+  function createTickerSpan(label, val) {
+    const span = document.createElement('span');
+    span.className = 'ticker-item';
+    const sep = document.createElement('span');
+    sep.className = 'ticker-sep';
+    sep.textContent = '\u00B7';
+    span.appendChild(sep);
+    span.appendChild(document.createTextNode(' ' + label + ' '));
+    const strong = document.createElement('strong');
+    strong.textContent = val;
+    span.appendChild(strong);
+    return { span, strong };
   }
 
   function rebuildTicker() {
-    const items = [
-      tickerData['ticker-location'] && { label: 'Viewing from', val: tickerData['ticker-location'] },
-      tickerData['ticker-weather']  && { label: 'Weather', val: tickerData['ticker-weather'] },
-      tickerData['ticker-clock']    && { label: 'Local time', val: tickerData['ticker-clock'] },
-      { label: 'Device', val: `${device} · ${os}` },
-      { label: 'Browser', val: `${browser} · ${screen.width}×${screen.height}` },
-      tickerData['ticker-time']     && { label: 'Time on page', val: tickerData['ticker-time'] },
+    const itemDefs = [
+      tickerData['ticker-location'] ? { key: 'ticker-location', label: 'Viewing from', val: tickerData['ticker-location'] } : null,
+      tickerData['ticker-weather']  ? { key: 'ticker-weather', label: 'Weather', val: tickerData['ticker-weather'] } : null,
+      tickerData['ticker-clock']    ? { key: 'ticker-clock', label: 'Local time', val: tickerData['ticker-clock'] } : null,
+      { key: 'ticker-device', label: 'Device', val: device + ' \u00B7 ' + os },
+      { key: 'ticker-browser', label: 'Browser', val: browser + ' \u00B7 ' + screen.width + '\u00D7' + screen.height },
+      tickerData['ticker-time']     ? { key: 'ticker-time', label: 'Time on page', val: tickerData['ticker-time'] } : null,
     ].filter(Boolean);
 
-    const html = items.map(item =>
-      `<span class="ticker-item"><span class="ticker-sep">·</span> ${item.label} <strong>${item.val}</strong></span>`
-    ).join('');
-
     const track = document.getElementById('ticker-track');
-    // Double for seamless loop
-    track.innerHTML = html + html;
+    track.textContent = '';
+    Object.keys(tickerRefs).forEach(function(k) { delete tickerRefs[k]; });
+
+    itemDefs.forEach(function(item) {
+      var r1 = createTickerSpan(item.label, item.val);
+      var r2 = createTickerSpan(item.label, item.val);
+      tickerRefs[item.key] = { strongEl1: r1.strong, strongEl2: r2.strong };
+      // Append first half
+      track.appendChild(r1.span);
+      // Store second half to append after
+      r1._secondHalf = r2.span;
+    });
+    // Append second half (doubled for seamless loop)
+    itemDefs.forEach(function(item) {
+      track.appendChild(tickerRefs[item.key].strongEl2.parentNode);
+    });
+
+    tickerBuilt = true;
   }
 
   rebuildTicker();
@@ -1243,7 +1939,7 @@
     document.getElementById('color-bg').value = bg;
 
     // Save to localStorage
-    localStorage.setItem('resume-theme', JSON.stringify({ primary, accent, bg }));
+    safeLSSet('resume-theme', JSON.stringify({ primary, accent, bg }));
   }
 
   // Toggle panel
@@ -1260,6 +1956,15 @@
     if (!themePanel.contains(e.target) && !themeToggle.contains(e.target)) {
       themePanel.classList.remove('open');
       themeToggle.classList.remove('active');
+    }
+  });
+
+  // Close panel with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && themePanel.classList.contains('open')) {
+      themePanel.classList.remove('open');
+      themeToggle.classList.remove('active');
+      themeToggle.focus();
     }
   });
 
@@ -1290,18 +1995,169 @@
     });
   });
 
+  // ── FONT SWITCHER ──
+  const FONTS = {
+    garamond:     { heading: "'Cormorant Garamond', serif", body: "'DM Sans', sans-serif" },
+    playfair:     { heading: "'Playfair Display', serif",   body: "'Inter', sans-serif" },
+    lora:         { heading: "'Lora', serif",               body: "'Source Sans 3', sans-serif" },
+    merriweather: { heading: "'Merriweather', serif",       body: "'Roboto', sans-serif" },
+  };
+
+  function applyFont(fontKey) {
+    const f = FONTS[fontKey];
+    if (!f) return;
+    document.documentElement.style.setProperty('--font-heading', f.heading);
+    document.documentElement.style.setProperty('--font-body', f.body);
+    document.querySelectorAll('.font-preset').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.font === fontKey);
+    });
+    safeLSSet('resume-font', fontKey);
+  }
+
+  document.querySelectorAll('[data-font]').forEach(btn => {
+    btn.addEventListener('click', () => applyFont(btn.dataset.font));
+  });
+
+  const savedFont = safeLSGet('resume-font');
+  if (savedFont) applyFont(savedFont);
+
+  // ── LAYOUT SWITCHER ──
+  function applyLayout(layout) {
+    document.body.classList.remove('layout-sidebar', 'layout-compact', 'layout-timeline');
+    if (layout !== 'classic') {
+      document.body.classList.add('layout-' + layout);
+    }
+    document.querySelectorAll('.layout-preset').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.layout === layout);
+    });
+    safeLSSet('resume-layout', layout);
+  }
+
+  document.querySelectorAll('[data-layout]').forEach(btn => {
+    btn.addEventListener('click', () => applyLayout(btn.dataset.layout));
+  });
+
+  // Load saved layout
+  const savedLayout = safeLSGet('resume-layout');
+  if (savedLayout) applyLayout(savedLayout);
+
   // Reset
   document.getElementById('theme-reset').addEventListener('click', () => {
     const d = PRESETS.default;
     applyTheme(d.primary, d.accent, d.bg);
+    applyLayout('classic');
+    applyFont('garamond');
   });
 
   // Load saved theme
-  const savedTheme = localStorage.getItem('resume-theme');
+  const savedTheme = safeLSGet('resume-theme');
   if (savedTheme) {
-    const { primary, accent, bg } = JSON.parse(savedTheme);
-    applyTheme(primary, accent, bg);
+    try {
+      const { primary, accent, bg } = JSON.parse(savedTheme);
+      applyTheme(primary, accent, bg);
+    } catch (e) { /* corrupted localStorage, ignore */ }
   }
+
+  // ── TYPED INTRO ANIMATION ──
+  (function() {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nameEl = document.getElementById('typed-name');
+    const taglineEl = document.getElementById('typed-tagline');
+    const contactBar = document.querySelector('.contact-bar');
+
+    if (prefersReduced) {
+      // Show everything immediately
+      contactBar.classList.add('visible');
+      return;
+    }
+
+    // Text sequences: name types first, then tagline
+    const nameSegments = [
+      { text: 'Tenzin ', highlight: false },
+      { text: 'Rawang', highlight: true }
+    ];
+    const taglineText = 'Marketing Operations  ·  Digital Marketing  ·  Ecommerce';
+
+    // Clear content for typing
+    nameEl.textContent = '';
+    taglineEl.textContent = '';
+
+    // Add cursors
+    var nameCursor = document.createElement('span');
+    nameCursor.className = 'typed-cursor';
+    nameCursor.textContent = '\u00A0';
+    nameEl.appendChild(nameCursor);
+
+    var taglineCursor = document.createElement('span');
+    taglineCursor.className = 'typed-cursor';
+    taglineCursor.textContent = '\u00A0';
+
+    function typeText(el, text, cursor, speed, callback) {
+      var i = 0;
+      function tick() {
+        if (i < text.length) {
+          cursor.before(text.charAt(i));
+          i++;
+          setTimeout(tick, speed + Math.random() * 30);
+        } else if (callback) {
+          callback();
+        }
+      }
+      tick();
+    }
+
+    function typeNameSegments(segments, idx, callback) {
+      if (idx >= segments.length) {
+        callback();
+        return;
+      }
+      var seg = segments[idx];
+      if (seg.highlight) {
+        var span = document.createElement('span');
+        nameEl.insertBefore(span, nameCursor);
+        // Type inside the gold span
+        var charIdx = 0;
+        function tickHighlight() {
+          if (charIdx < seg.text.length) {
+            span.textContent += seg.text.charAt(charIdx);
+            charIdx++;
+            setTimeout(tickHighlight, 55 + Math.random() * 30);
+          } else {
+            typeNameSegments(segments, idx + 1, callback);
+          }
+        }
+        tickHighlight();
+      } else {
+        typeText(nameEl, seg.text, nameCursor, 55, function() {
+          typeNameSegments(segments, idx + 1, callback);
+        });
+      }
+    }
+
+    // Wait for header fade-in to finish (0.8s), then start typing
+    setTimeout(function() {
+      typeNameSegments(nameSegments, 0, function() {
+        // Name done — mark done so cursor blinks out
+        nameEl.classList.add('typing-done');
+
+        // Small pause, then type tagline
+        setTimeout(function() {
+          // Move cursor to tagline
+          nameCursor.remove();
+          taglineEl.appendChild(taglineCursor);
+
+          typeText(taglineEl, taglineText, taglineCursor, 28, function() {
+            taglineEl.classList.add('typing-done');
+
+            // Fade in contact bar
+            setTimeout(function() {
+              contactBar.classList.add('visible');
+            }, 200);
+          });
+        }, 300);
+      });
+    }, 900);
+  })();
 
   // ── STAGGER JOBS ──
   // Stagger job cards on load
