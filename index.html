@@ -5,8 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tenzin Rawang — Resume</title>
 <meta name="description" content="Resume of Tenzin Rawang — Marketing Operations Specialist with expertise in digital marketing, ecommerce, and data-driven campaign strategy based in Calgary, Alberta.">
+<meta property="og:title" content="Tenzin Rawang — Resume">
+<meta property="og:description" content="Marketing Operations Specialist with expertise in digital marketing, ecommerce, and data-driven campaign strategy based in Calgary, Alberta.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tenzin Rawang — Resume">
+<meta name="twitter:description" content="Marketing Operations Specialist with expertise in digital marketing, ecommerce, and data-driven campaign strategy.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500&family=Merriweather:wght@300;400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
     --font-heading: 'Cormorant Garamond', serif;
@@ -1097,7 +1103,7 @@
 <div class="scroll-progress" id="scroll-progress"></div>
 
 <!-- Sticky ticker (appears on scroll) -->
-<div class="sticky-ticker" id="sticky-ticker">
+<div class="sticky-ticker" id="sticky-ticker" aria-hidden="true">
   <div class="ticker-track" id="ticker-track">
     <!-- populated by JS, doubled for seamless loop -->
   </div>
@@ -1110,7 +1116,7 @@
     <p class="tagline" id="typed-tagline">Marketing Operations &nbsp;·&nbsp; Digital Marketing &nbsp;·&nbsp; Ecommerce</p>
     <div class="contact-bar">
       <span class="contact-item"><span class="contact-dot"></span>Calgary, Alberta, Canada</span>
-      <a href="https://linkedin.com/in/tyrawang" class="contact-item" target="_blank" rel="noopener noreferrer"><span class="contact-dot"></span>linkedin.com/in/tenzin-r-8b14a5a4</a>
+      <a href="https://linkedin.com/in/tyrawang" class="contact-item" target="_blank" rel="noopener noreferrer"><span class="contact-dot"></span>linkedin.com/in/tyrawang</a>
     </div>
   </div>
 </header>
@@ -1118,7 +1124,7 @@
 <main class="page">
 
   <!-- ── ANALYTICS STRIP ── -->
-  <div class="analytics-strip" id="analytics-strip">
+  <div class="analytics-strip" id="analytics-strip" aria-hidden="true">
     <!-- Background layers -->
     <div class="analytics-strip-bg" id="strip-bg"></div>
     <div class="analytics-strip-tint" id="strip-tint"></div>
@@ -1946,9 +1952,20 @@
   const themeToggle = document.getElementById('theme-toggle');
   const themePanel = document.getElementById('theme-panel');
 
+  let extraFontsLoaded = false;
+  function loadExtraFonts() {
+    if (extraFontsLoaded) return;
+    extraFontsLoaded = true;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500&family=Merriweather:wght@300;400;700&family=Roboto:wght@300;400;500&display=swap';
+    document.head.appendChild(link);
+  }
+
   themeToggle.addEventListener('click', () => {
     const isOpen = themePanel.classList.toggle('open');
     themeToggle.classList.toggle('active', isOpen);
+    if (isOpen) loadExtraFonts();
   });
 
   // Close panel when clicking outside
@@ -2019,7 +2036,10 @@
   });
 
   const savedFont = safeLSGet('resume-font');
-  if (savedFont) applyFont(savedFont);
+  if (savedFont && savedFont !== 'garamond') {
+    loadExtraFonts();
+    applyFont(savedFont);
+  }
 
   // ── LAYOUT SWITCHER ──
   function applyLayout(layout) {
