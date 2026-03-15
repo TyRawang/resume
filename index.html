@@ -502,85 +502,95 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding: 0 4px;
   }
 
-  /* ── ANALYTICS STRIP BG (Ken Burns) ── */
-  .analytics-strip {
-    position: relative;
-    overflow: hidden;
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    padding: 14px 0;
-    margin-bottom: 48px;
+  /* ── STATS PANEL (floating) ── */
+  .stats-toggle {
+    position: fixed;
+    bottom: 132px;
+    right: 32px;
+    width: 44px; height: 44px;
+    background: var(--navy);
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 200;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
   }
 
-  .analytics-strip-bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
+  .stats-toggle:hover {
+    background: var(--gold);
+    transform: scale(1.08);
+  }
+
+  .stats-toggle svg { transition: stroke 0.2s ease; }
+  .stats-toggle:hover svg { stroke: var(--navy); }
+
+  .stats-panel {
+    position: fixed;
+    bottom: 188px;
+    right: 32px;
+    width: 220px;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    z-index: 200;
+    padding: 16px;
     opacity: 0;
-    z-index: 0;
+    transform: translateY(12px) scale(0.96);
     pointer-events: none;
-    transform-origin: center center;
+    transition: opacity 0.25s ease, transform 0.25s ease;
   }
 
-  @keyframes kenburns {
-    0%   { transform: scale(1.0); }
-    100% { transform: scale(1.1); }
+  .stats-panel.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
   }
 
-  .analytics-strip-tint {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .analytics-strip-frost {
-    position: absolute;
-    inset: 0;
-    background: var(--frost-bg, rgba(250, 248, 244, 0.65));
-    opacity: 0;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  .analytics-strip > .astrip-item {
-    position: relative;
-    z-index: 3;
-  }
-
-  .astrip-item {
-    flex: 1;
-    min-width: 120px;
-    padding: 0 20px;
-    border-right: 1px solid var(--rule);
-  }
-
-  .astrip-item:first-child { padding-left: 0; }
-  .astrip-item:last-child { border-right: none; }
-
-  .astrip-label {
+  .stats-panel-title {
+    font-family: var(--font-heading);
     font-size: 9px;
-    letter-spacing: 0.2em;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--light);
-    margin-bottom: 3px;
+    margin-bottom: 10px;
   }
 
-  .astrip-value {
+  .stats-row {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .stats-row:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .stats-label {
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 1px;
+  }
+
+  .stats-value {
     font-family: var(--font-heading);
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--job-title-color, var(--navy));
     line-height: 1.2;
   }
 
-  .astrip-sub {
-    font-size: 10px;
+  .stats-sub {
+    font-size: 9px;
     color: var(--light);
     font-style: italic;
     margin-top: 1px;
@@ -612,19 +622,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition: width 0.1s linear;
   }
 
-  @media (max-width: 680px) {
-    .astrip-item { min-width: 45%; padding: 8px 12px; border-right: none; border-bottom: 1px solid var(--rule); }
-    .astrip-item:last-child { border-bottom: none; }
-  }
-
   @media print {
-    .sticky-ticker, .scroll-progress, .analytics-strip, .theme-toggle, .theme-panel, .btn-group { display: none; }
+    .sticky-ticker, .scroll-progress, .stats-toggle, .stats-panel, .theme-toggle, .theme-panel, .btn-group { display: none; }
   }
 
   /* ── THEME CUSTOMIZER ── */
   .theme-toggle {
     position: fixed;
-    bottom: 88px;
+    bottom: 80px;
     right: 32px;
     width: 44px; height: 44px;
     background: var(--navy);
@@ -650,7 +655,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   .theme-panel {
     position: fixed;
-    bottom: 144px;
+    bottom: 136px;
     right: 32px;
     width: 260px;
     background: #fff;
@@ -888,10 +893,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding: 0 48px 80px;
   }
 
-  body.layout-sidebar .analytics-strip {
-    margin-bottom: 40px;
-  }
-
   body.layout-sidebar .sidebar-wrap {
     display: flex;
     gap: 48px;
@@ -1015,23 +1016,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     gap: 8px;
   }
 
-  body.layout-compact .analytics-strip {
-    margin-bottom: 24px;
-    padding: 10px 0;
-  }
-
-  body.layout-compact .astrip-label {
-    font-size: 8px;
-  }
-
-  body.layout-compact .astrip-value {
-    font-size: 13px;
-  }
-
-  body.layout-compact .astrip-sub {
-    font-size: 9px;
-  }
-
   /* ── TIMELINE LAYOUT ── */
   body.layout-timeline .job {
     position: relative;
@@ -1088,8 +1072,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   @media (max-width: 680px) {
-    .theme-panel { right: 16px; bottom: 136px; width: 240px; }
-    .theme-toggle { right: 16px; bottom: 80px; }
+    .stats-toggle { right: 16px; bottom: 124px; }
+    .stats-panel { right: 16px; bottom: 180px; width: 240px; }
+    .theme-panel { right: 16px; bottom: 128px; width: 240px; }
+    .theme-toggle { right: 16px; bottom: 72px; }
     body.layout-compact .header { padding: 28px 20px 20px; }
     body.layout-compact .page { padding: 20px 20px 40px; }
   }
@@ -1133,44 +1119,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </header>
 
 <main class="page">
-
-  <!-- ── ANALYTICS STRIP ── -->
-  <div class="analytics-strip" id="analytics-strip" aria-hidden="true">
-    <!-- Background layers -->
-    <div class="analytics-strip-bg" id="strip-bg"></div>
-    <div class="analytics-strip-tint" id="strip-tint"></div>
-    <div class="analytics-strip-frost" id="strip-frost"></div>
-    <div class="astrip-item">
-      <div class="astrip-label">Location</div>
-      <div class="astrip-value" id="a-location"><span class="analytics-loading"></span></div>
-      <div class="astrip-sub" id="a-weather-sub"></div>
-    </div>
-    <div class="astrip-item">
-      <div class="astrip-label">Weather</div>
-      <div class="astrip-value" id="a-weather"><span class="analytics-loading"></span></div>
-      <div class="astrip-sub" id="a-weather-feels"></div>
-    </div>
-    <div class="astrip-item">
-      <div class="astrip-label">Local Time</div>
-      <div class="astrip-value" id="a-time"><span class="analytics-loading"></span></div>
-      <div class="astrip-sub" id="a-timezone"></div>
-    </div>
-    <div class="astrip-item">
-      <div class="astrip-label">Device</div>
-      <div class="astrip-value" id="a-device"><span class="analytics-loading"></span></div>
-      <div class="astrip-sub" id="a-os"></div>
-    </div>
-    <div class="astrip-item">
-      <div class="astrip-label">Browser</div>
-      <div class="astrip-value" id="a-browser"><span class="analytics-loading"></span></div>
-      <div class="astrip-sub" id="a-screen"></div>
-    </div>
-    <div class="astrip-item">
-      <div class="astrip-label">Time on Page</div>
-      <div class="astrip-value" id="a-time-on-page">0s</div>
-      <div class="astrip-sub" id="a-scroll-pct">0% read</div>
-    </div>
-  </div>
 
   <div class="sidebar-wrap">
   <!-- ── EXPERIENCE ── -->
@@ -1346,6 +1294,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </main>
 </div><!-- /resume-content -->
 
+<!-- Stats panel -->
+<button class="stats-toggle" id="stats-toggle" aria-label="View live stats">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="12" width="4" height="9"/><rect x="10" y="7" width="4" height="14"/><rect x="17" y="3" width="4" height="18"/>
+  </svg>
+</button>
+
+<div class="stats-panel" id="stats-panel" aria-hidden="true">
+  <div class="stats-panel-title">Live Stats</div>
+  <div class="stats-row">
+    <div class="stats-label">Location</div>
+    <div class="stats-value" id="a-location"><span class="analytics-loading"></span></div>
+    <div class="stats-sub" id="a-weather-sub"></div>
+  </div>
+  <div class="stats-row">
+    <div class="stats-label">Weather</div>
+    <div class="stats-value" id="a-weather"><span class="analytics-loading"></span></div>
+    <div class="stats-sub" id="a-weather-feels"></div>
+  </div>
+  <div class="stats-row">
+    <div class="stats-label">Local Time</div>
+    <div class="stats-value" id="a-time"><span class="analytics-loading"></span></div>
+    <div class="stats-sub" id="a-timezone"></div>
+  </div>
+  <div class="stats-row">
+    <div class="stats-label">Device</div>
+    <div class="stats-value" id="a-device"><span class="analytics-loading"></span></div>
+    <div class="stats-sub" id="a-os"></div>
+  </div>
+  <div class="stats-row">
+    <div class="stats-label">Browser</div>
+    <div class="stats-value" id="a-browser"><span class="analytics-loading"></span></div>
+    <div class="stats-sub" id="a-screen"></div>
+  </div>
+  <div class="stats-row">
+    <div class="stats-label">Time on Page</div>
+    <div class="stats-value" id="a-time-on-page">0s</div>
+    <div class="stats-sub" id="a-scroll-pct">0% read</div>
+  </div>
+</div>
+
 <!-- Theme customizer -->
 <button class="theme-toggle" id="theme-toggle" aria-label="Customize colors">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -1479,14 +1468,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const header = resumeEl.querySelector('.header');
     const sections = resumeEl.querySelectorAll('.section');
     const jobs = resumeEl.querySelectorAll('.job');
-    const analyticsStrip = resumeEl.querySelector('.analytics-strip');
-
-    // Make everything visible and hide non-resume elements
+    // Make everything visible
     header.style.opacity = '1';
     header.style.animation = 'none';
     sections.forEach(s => { s.style.opacity = '1'; s.style.transform = 'none'; });
     jobs.forEach(j => { j.style.opacity = '1'; j.style.transform = 'none'; });
-    if (analyticsStrip) analyticsStrip.style.display = 'none';
 
     // For sidebar layout, temporarily linearize for PDF
     const isSidebar = document.body.classList.contains('layout-sidebar');
@@ -1573,7 +1559,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       if (skillsGrid) skillsGrid.style.cssText = '';
       if (sidebarWrap) sidebarWrap.style.cssText = '';
       if (sidebarLeft) sidebarLeft.style.cssText = '';
-      if (analyticsStrip) analyticsStrip.style.display = '';
       btn.disabled = false;
       btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PDF';
     });
@@ -1764,27 +1749,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         document.getElementById('a-weather-sub').textContent = tz;
         document.getElementById('a-weather-feels').textContent = `Feels ${feels}°C · ${humidity}% humidity`;
         updateTickerItem('ticker-weather', weatherStr);
-
-        // ── KEN BURNS BACKGROUND ──
-        const descLower = desc.toLowerCase();
-
-        // Weather tint
-        let tintColor = 'rgba(255,200,80,0.15)';
-        if (descLower.includes('rain') || descLower.includes('drizzle') || descLower.includes('shower')) {
-          tintColor = 'rgba(80,100,140,0.25)';
-        } else if (descLower.includes('snow') || descLower.includes('blizzard') || descLower.includes('ice')) {
-          tintColor = 'rgba(200,220,240,0.30)';
-        } else if (descLower.includes('cloud') || descLower.includes('overcast') || descLower.includes('fog') || descLower.includes('mist')) {
-          tintColor = 'rgba(140,140,150,0.22)';
-        } else if (descLower.includes('thunder') || descLower.includes('storm')) {
-          tintColor = 'rgba(50,30,80,0.28)';
-        }
-
-        // Use Picsum with a city-name-based seed for a consistent landscape photo
-        const seed = encodeURIComponent(city.toLowerCase().replace(/\s+/g,'-'));
-        const bgUrl = `https://picsum.photos/seed/${seed}-city/1600/400`;
-
-        setupKenBurns(bgUrl, tintColor);
       } catch {
         document.getElementById('a-weather').textContent = '-3°C · Partly Cloudy';
         document.getElementById('a-weather-feels').textContent = 'Feels -9°C · 72% humidity';
@@ -1811,63 +1775,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       updateClock();
       setInterval(updateClock, 1000);
-
-      // Ken Burns with dummy data
-      setupKenBurns('https://picsum.photos/seed/calgary-city/1600/400', 'rgba(140,140,150,0.22)');
     }
   }
 
-  // ── SHARED KEN BURNS SETUP ──
-  function setupKenBurns(bgUrl, tintColor) {
-    const stripBg    = document.getElementById('strip-bg');
-    const stripTint  = document.getElementById('strip-tint');
-    const stripFrost = document.getElementById('strip-frost');
-    const strip      = document.getElementById('analytics-strip');
+  loadAnalytics();
 
-    // Set tint immediately — doesn't need image
-    stripTint.style.background = tintColor;
+  // ── STATS PANEL TOGGLE ──
+  const statsToggle = document.getElementById('stats-toggle');
+  const statsPanel = document.getElementById('stats-panel');
 
-    // Set background directly without preloading — let browser handle it
-    // Use a landscape photo from picsum that doesn't redirect
-    stripBg.style.backgroundImage = `url('${bgUrl}')`;
-    stripBg.style.backgroundSize = 'cover';
-    stripBg.style.backgroundPosition = 'center';
-
-    // Remove old listeners by cloning
-    const newStrip = strip.cloneNode(true);
-    strip.parentNode.replaceChild(newStrip, strip);
-
-    // Re-grab refs after clone
-    const bg2    = document.getElementById('strip-bg');
-    const tint2  = document.getElementById('strip-tint');
-    const frost2 = document.getElementById('strip-frost');
-
-    // Re-apply tint and bg to cloned elements
-    bg2.style.backgroundImage = `url('${bgUrl}')`;
-    bg2.style.backgroundSize = 'cover';
-    bg2.style.backgroundPosition = 'center';
-    tint2.style.background = tintColor;
-
-    newStrip.addEventListener('mouseenter', () => {
-      bg2.style.transition = 'opacity 0.8s ease';
-      tint2.style.transition = 'opacity 0.8s ease';
-      frost2.style.transition = 'opacity 0.8s ease';
-      bg2.style.opacity = '1';
-      tint2.style.opacity = '1';
-      frost2.style.opacity = '1';
-      bg2.style.animation = 'none';
-      bg2.offsetHeight;
-      bg2.style.animation = 'kenburns 8s ease-in-out forwards';
-    });
-
-    newStrip.addEventListener('mouseleave', () => {
-      bg2.style.opacity = '0';
-      tint2.style.opacity = '0';
-      frost2.style.opacity = '0';
-    });
+  // Open by default on desktop only
+  if (window.innerWidth > 680) {
+    statsPanel.classList.add('open');
   }
 
-  loadAnalytics();
+  statsToggle.addEventListener('click', () => {
+    statsPanel.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!statsPanel.contains(e.target) && !statsToggle.contains(e.target)) {
+      statsPanel.classList.remove('open');
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && statsPanel.classList.contains('open')) {
+      statsPanel.classList.remove('open');
+      statsToggle.focus();
+    }
+  });
 
   // ── THEME CUSTOMIZER ──
   const PRESETS = {
