@@ -592,6 +592,29 @@
     margin-top: 1px;
   }
 
+  .stats-fix-link {
+    font-size: 8px;
+    font-family: var(--font-body);
+    color: var(--gold);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    margin-left: 6px;
+    padding: 1px 6px;
+    border: 1px solid var(--gold);
+    border-radius: 9px;
+    transition: all 0.2s;
+    vertical-align: middle;
+  }
+
+  .stats-fix-link:hover {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  .stats-fix-link.hidden {
+    display: none;
+  }
+
   .analytics-loading {
     display: inline-block;
     width: 32px;
@@ -1299,7 +1322,7 @@
 <div class="stats-panel" id="stats-panel" aria-hidden="true">
   <div class="stats-panel-title">Live Stats</div>
   <div class="stats-row">
-    <div class="stats-label">Location</div>
+    <div class="stats-label">Location <a href="#" class="stats-fix-link" id="fix-location">&#8635; fix</a></div>
     <div class="stats-value" id="a-location"><span class="analytics-loading"></span></div>
     <div class="stats-sub" id="a-weather-sub"></div>
   </div>
@@ -1715,65 +1738,93 @@
 
   rebuildTicker();
 
-  // ── GEO + WEATHER ──
+  // ── SHARED: UPDATE LOCATION + WEATHER ──
+  let clockStarted = false;
+
+  async function updateLocationAndWeather(city, tz) {
+    clockTz = tz;
+    const locationStr = city;
+    document.getElementById('a-location').textContent = locationStr;
+    document.getElementById('a-timezone').textContent = tz;
+    updateTickerItem('ticker-location', locationStr);
+
+    if (!clockStarted) {
+      clockStarted = true;
+      updateClock();
+      setInterval(updateClock, 1000);
+    }
+
+    // Fetch weather using just the city name (before the comma)
+    const cityName = city.split(',')[0].trim();
+    try {
+      const w = await fetch(`https://wttr.in/${encodeURIComponent(cityName)}?format=j1`).then(r => r.json());
+      const cur = w.current_condition[0];
+      const temp = cur.temp_C;
+      const desc = cur.weatherDesc[0].value;
+      const feels = cur.FeelsLikeC;
+      const humidity = cur.humidity;
+      const weatherStr = `${temp}°C · ${desc}`;
+      document.getElementById('a-weather').textContent = weatherStr;
+      document.getElementById('a-weather-sub').textContent = tz;
+      document.getElementById('a-weather-feels').textContent = `Feels ${feels}°C · ${humidity}% humidity`;
+      updateTickerItem('ticker-weather', weatherStr);
+    } catch {
+      document.getElementById('a-weather').textContent = '-3°C · Partly Cloudy';
+      document.getElementById('a-weather-feels').textContent = 'Feels -9°C · 72% humidity';
+      updateTickerItem('ticker-weather', '-3°C · Partly Cloudy');
+    }
+  }
+
+  // ── GEO (IP-based) ──
   async function loadAnalytics() {
     try {
       const geo = await fetch('https://ipapi.co/json/').then(r => r.json());
       const city = geo.city || 'Unknown';
       const country = geo.country_name || '';
       const tz = geo.timezone || '';
-      clockTz = tz;
-
-      const locationStr = `${city}, ${country}`;
-      document.getElementById('a-location').textContent = locationStr;
-      document.getElementById('a-timezone').textContent = tz;
-      updateTickerItem('ticker-location', locationStr);
-
-      updateClock();
-      setInterval(updateClock, 1000);
-
-      try {
-        const w = await fetch(`https://wttr.in/${encodeURIComponent(city)}?format=j1`).then(r => r.json());
-        const cur = w.current_condition[0];
-        const temp = cur.temp_C;
-        const desc = cur.weatherDesc[0].value;
-        const feels = cur.FeelsLikeC;
-        const humidity = cur.humidity;
-        const weatherStr = `${temp}°C · ${desc}`;
-        document.getElementById('a-weather').textContent = weatherStr;
-        document.getElementById('a-weather-sub').textContent = tz;
-        document.getElementById('a-weather-feels').textContent = `Feels ${feels}°C · ${humidity}% humidity`;
-        updateTickerItem('ticker-weather', weatherStr);
-      } catch {
-        document.getElementById('a-weather').textContent = '-3°C · Partly Cloudy';
-        document.getElementById('a-weather-feels').textContent = 'Feels -9°C · 72% humidity';
-        updateTickerItem('ticker-weather', '-3°C · Partly Cloudy');
-      }
-
+      await updateLocationAndWeather(`${city}, ${country}`, tz);
     } catch {
-      // ── FALLBACK DUMMY DATA ──
-      const dummyCity = 'Calgary';
-      const dummyCountry = 'Canada';
-      const dummyTz = 'America/Edmonton';
-      clockTz = dummyTz;
-
-      const locationStr = `${dummyCity}, ${dummyCountry}`;
-      document.getElementById('a-location').textContent = locationStr;
-      document.getElementById('a-timezone').textContent = dummyTz;
-      document.getElementById('a-weather-sub').textContent = dummyTz;
-      updateTickerItem('ticker-location', locationStr);
-
-      const weatherStr = '-3°C · Partly Cloudy';
-      document.getElementById('a-weather').textContent = weatherStr;
-      document.getElementById('a-weather-feels').textContent = 'Feels -9°C · 72% humidity';
-      updateTickerItem('ticker-weather', weatherStr);
-
-      updateClock();
-      setInterval(updateClock, 1000);
+      await updateLocationAndWeather('Calgary, Canada', 'America/Edmonton');
     }
   }
 
   loadAnalytics();
+
+  // ── FIX LOCATION (browser geolocation) ──
+  document.getElementById('fix-location').addEventListener('click', function(e) {
+    e.preventDefault();
+    const link = this;
+
+    if (!navigator.geolocation) {
+      link.textContent = 'not supported';
+      return;
+    }
+
+    link.textContent = '\u21BB locating...';
+
+    navigator.geolocation.getCurrentPosition(
+      async function(pos) {
+        try {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=en`).then(r => r.json());
+          const addr = res.address || {};
+          const city = addr.city || addr.town || addr.village || 'Unknown';
+          const country = addr.country || '';
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+          await updateLocationAndWeather(`${city}, ${country}`, tz);
+          link.classList.add('hidden');
+        } catch {
+          link.textContent = '\u21BB failed';
+        }
+      },
+      function() {
+        link.textContent = '\u21BB denied';
+        setTimeout(function() { link.textContent = '\u21BB fix'; }, 2000);
+      },
+      { enableHighAccuracy: false, timeout: 10000 }
+    );
+  });
 
   // ── STATS PANEL TOGGLE ──
   const statsToggle = document.getElementById('stats-toggle');
